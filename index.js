@@ -24,10 +24,10 @@ if (message.channel.type == 'dm'){ //checks for DM - Creates a DM DB and records
     })
   })
 }else{ //otherwise it's a normal channel
-  sql.run(`INSERT INTO ${message.channel.name} (username, message, timestamp, userID) VALUES (?,?,?,?)`, [message.author.username, message.content, tStamp, message.author.id]).catch(() =>{
+  sql.run(`INSERT INTO ${message.channel.name.replace(/-/g, '_')} (username, message, timestamp, userID) VALUES (?,?,?,?)`, [message.author.username, message.content, tStamp, message.author.id]).catch(() =>{
     console.error;
-    sql.run(`CREATE TABLE IF NOT EXISTS ${message.channel.name} (username TEXT, message TEXT, timestamp TEXT, userID TEXT);`).then(() =>{
-      sql.run(`INSERT INTO ${message.channel.name} (username, message, timestamp, userID) VALUES (?,?,?,?)`, [message.author.username, message.content, tStamp, message.author.id]);
+    sql.run(`CREATE TABLE IF NOT EXISTS ${message.channel.name.replace(/-/g, '_')} (username TEXT, message TEXT, timestamp TEXT, userID TEXT);`).then(() =>{
+      sql.run(`INSERT INTO ${message.channel.name.replace(/-/g, '_')} (username, message, timestamp, userID) VALUES (?,?,?,?)`, [message.author.username, message.content, tStamp, message.author.id]);
     }) // KNOWN ISSUE: Does not like channels with "-" in them
   })
 }
